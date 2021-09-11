@@ -19,11 +19,13 @@ $ npm install or yarn install
 ### Create .env file in the root directory with the following key value pair
 
 
-
+```bash
 INFURA_KEY='infura key'
-PORT=2000
-PRIVATE_KEY='private key'
 
+PORT=2000
+
+PRIVATE_KEY='private key'
+```
 
 
 ## Create project on infura.io
