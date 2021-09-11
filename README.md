@@ -34,10 +34,10 @@ settings > get the infura key of rinkeby network
 
 ## Running the app
 
-
+```bash
 # start
 $ npm run start or yarn start
-
+```
 
 ## License
 
