@@ -5,7 +5,7 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A <strong>Captain-Bot</strong> by Unipilot.io</p>
+  <p align="center"><strong>Unipilot Captain Bot</strong></p>
 
 
 ## Installation
@@ -18,13 +18,15 @@ $ npm install or yarn install
 
 ### Create .env file in the root directory with the following key value pair
 
-````json
 
+```bash
 INFURA_KEY='infura key'
-PORT=2000
-PRIVATE_KEY='private key'
 
-```json
+PORT=2000
+
+PRIVATE_KEY='private key'
+```
+
 
 ## Create project on infura.io
 settings > get the infura key of rinkeby network
@@ -35,7 +37,7 @@ settings > get the infura key of rinkeby network
 ```bash
 # start
 $ npm run start or yarn start
-````
+```
 
 ## License
 
