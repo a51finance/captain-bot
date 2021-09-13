@@ -21,14 +21,14 @@ interface EventOptions {
   topics?: string[];
 }
 
-export type Collected = ContractEventLog<{
-  pool: string;
-  recipient: string;
+export type Collect = ContractEventLog<{
   tokenId: string;
   userAmount0: string;
   userAmount1: string;
   indexAmount0: string;
   indexAmount1: string;
+  pool: string;
+  recipient: string;
   0: string;
   1: string;
   2: string;
@@ -106,7 +106,7 @@ export interface LiquidityManager extends BaseContract {
     collect(
       pilotToken: boolean,
       wethToken: boolean,
-      sender: string,
+      tokenId: number | string | BN,
       data: string | number[]
     ): PayableTransactionObject<void>;
 
@@ -228,14 +228,6 @@ export interface LiquidityManager extends BaseContract {
       fee: number | string | BN
     ): NonPayableTransactionObject<void>;
 
-    refundETH(): PayableTransactionObject<void>;
-
-    sweepToken(
-      token: string,
-      amountMinimum: number | string | BN,
-      recipient: string
-    ): PayableTransactionObject<void>;
-
     unipilot(): NonPayableTransactionObject<string>;
 
     uniswapV3MintCallback(
@@ -249,11 +241,6 @@ export interface LiquidityManager extends BaseContract {
       amount1Delta: number | string | BN,
       data: string | number[]
     ): NonPayableTransactionObject<void>;
-
-    unwrapWETH9(
-      amountMinimum: number | string | BN,
-      recipient: string
-    ): PayableTransactionObject<void>;
 
     updatePositionTotalAmounts(_pool: string): NonPayableTransactionObject<{
       fee0: string;
@@ -271,14 +258,14 @@ export interface LiquidityManager extends BaseContract {
     withdraw(
       pilotToken: boolean,
       wethToken: boolean,
-      sender: string,
       liquidity: number | string | BN,
+      tokenId: number | string | BN,
       data: string | number[]
     ): PayableTransactionObject<void>;
   };
   events: {
-    Collected(cb?: Callback<Collected>): EventEmitter;
-    Collected(options?: EventOptions, cb?: Callback<Collected>): EventEmitter;
+    Collect(cb?: Callback<Collect>): EventEmitter;
+    Collect(options?: EventOptions, cb?: Callback<Collect>): EventEmitter;
 
     Deposited(cb?: Callback<Deposited>): EventEmitter;
     Deposited(options?: EventOptions, cb?: Callback<Deposited>): EventEmitter;
@@ -301,12 +288,8 @@ export interface LiquidityManager extends BaseContract {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
 
-  once(event: "Collected", cb: Callback<Collected>): void;
-  once(
-    event: "Collected",
-    options: EventOptions,
-    cb: Callback<Collected>
-  ): void;
+  once(event: "Collect", cb: Callback<Collect>): void;
+  once(event: "Collect", options: EventOptions, cb: Callback<Collect>): void;
 
   once(event: "Deposited", cb: Callback<Deposited>): void;
   once(
