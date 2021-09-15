@@ -133,11 +133,11 @@ export class BotController {
         effectiveGasPrice: `${parseInt(tx?.effectiveGasPrice)} GWei`,
       });
     } catch (e) {
-      console.log(
-        'TX Hash:Exception => ',
-        `${URL_ETHERSCAN}${e?.receipt?.transactionHash}`,
-        e?.message,
-      );
+      // console.log(
+      //   'TX Hash:Exception => ',
+      //   `${URL_ETHERSCAN}${e?.receipt?.transactionHash}`,
+      //   e?.message,
+      // );
     }
   }
 }
