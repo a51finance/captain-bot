@@ -38,7 +38,7 @@ const params = {
 export class BotController {
   constructor() {}
 
-  @Interval(1000 * 60 * 10)
+  @Interval(1000 * 60 * 0.5)
   async getHello() {
     try {
       let web3 = getWeb3WithProvider();
@@ -52,7 +52,7 @@ export class BotController {
       const maxTick = 887272;
 
       data?.unipilotPositions.forEach((position: any, idx) => {
-        const threshold = 1000;
+        const threshold = 1;
         const liquidity = new BigNumber(
           wallet.toEth(position?.pool?.liquidity),
         );
@@ -87,9 +87,7 @@ export class BotController {
           !readjustFrequencyStatus[idx] &&
           (await this.rebase({ wallet, position, txCount: txCount++ }));
       });
-    } catch (e) {
-      console.log('exception:Bot => ', e);
-    }
+    } catch (e) {}
   }
 
   async rebase({ wallet, position, txCount }: any) {
@@ -132,12 +130,6 @@ export class BotController {
         cumulativeGasUsed: tx?.cumulativeGasUsed,
         effectiveGasPrice: `${parseInt(tx?.effectiveGasPrice)} GWei`,
       });
-    } catch (e) {
-      // console.log(
-      //   'TX Hash:Exception => ',
-      //   `${URL_ETHERSCAN}${e?.receipt?.transactionHash}`,
-      //   e?.message,
-      // );
-    }
+    } catch (e) {}
   }
 }

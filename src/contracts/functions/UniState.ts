@@ -28,7 +28,6 @@ export const shouldReAdjustAll = async (pools): Promise<any> => {
 
     return results?.map((r) => r['0']);
   } catch (e) {
-    console.log('shouldrebase', e);
     return [];
   }
 };

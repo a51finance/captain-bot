@@ -45,6 +45,12 @@
       },
       {
         "indexed": false,
+        "internalType": "uint256",
+        "name": "pilotAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "pool",
         "type": "address"
@@ -136,6 +142,12 @@
   {
     "anonymous": false,
     "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      },
       {
         "indexed": false,
         "internalType": "uint128",
@@ -347,6 +359,26 @@
     ],
     "name": "deposit",
     "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount0Base",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1Base",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount0Range",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1Range",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "mintedTokenId",

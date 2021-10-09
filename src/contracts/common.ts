@@ -57,6 +57,10 @@ export class Wallet {
     return await this.web3.eth.estimateGas(tx);
   };
 
+  getLatestBlockInfo = async () => {
+    return await this.web3.eth.getBlock('latest');
+  };
+
   getTxObject = ({
     to = undefined,
     gas = undefined,

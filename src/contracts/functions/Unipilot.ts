@@ -18,8 +18,27 @@ export const reAdjust = ({ token0, token1, feeTier }: any) => {
       ?.readjustLiquidity(token0, token1, feeTier)
       .encodeABI();
   } catch (e) {
-    console.log('approve', e);
     return '';
+  }
+};
+
+export const reAdjustGasCalculate = ({
+  token0,
+  token1,
+  feeTier,
+  wAddr,
+}: any) => {
+  try {
+    const contract: LiquidityManager = getContract(
+      liquidityManagerABI,
+      CONTRACT_ADDRESSES.LiquidityManager,
+    );
+
+    return contract?.methods
+      ?.readjustLiquidity(token0, token1, feeTier)
+      .estimateGas({ from: wAddr });
+  } catch (e) {
+    return 0;
   }
 };
 
@@ -45,7 +64,6 @@ export const readjustFrequencyStatusAll = async (pools): Promise<any> => {
     const results = await multiCall.execute();
     return results?.map((r) => r['0']);
   } catch (e) {
-    console.log('readjustFrequencyStatus', e);
     return [];
   }
 };

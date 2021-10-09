@@ -27,6 +27,7 @@ export type Collect = ContractEventLog<{
   userAmount1: string;
   indexAmount0: string;
   indexAmount1: string;
+  pilotAmount: string;
   pool: string;
   recipient: string;
   0: string;
@@ -36,6 +37,7 @@ export type Collect = ContractEventLog<{
   4: string;
   5: string;
   6: string;
+  7: string;
 }>;
 export type Deposited = ContractEventLog<{
   pool: string;
@@ -62,6 +64,7 @@ export type PoolCreated = ContractEventLog<{
   4: string;
 }>;
 export type PoolReajusted = ContractEventLog<{
+  pool: string;
   baseLiquidity: string;
   rangeLiquidity: string;
   newBaseTickLower: string;
@@ -74,6 +77,7 @@ export type PoolReajusted = ContractEventLog<{
   3: string;
   4: string;
   5: string;
+  6: string;
 }>;
 export type Withdrawn = ContractEventLog<{
   pool: string;
@@ -124,7 +128,18 @@ export interface LiquidityManager extends BaseContract {
       amount1Desired: number | string | BN,
       shares: number | string | BN,
       data: string | number[]
-    ): PayableTransactionObject<string>;
+    ): PayableTransactionObject<{
+      amount0Base: string;
+      amount1Base: string;
+      amount0Range: string;
+      amount1Range: string;
+      mintedTokenId: string;
+      0: string;
+      1: string;
+      2: string;
+      3: string;
+      4: string;
+    }>;
 
     getPoolAddress(
       token0: string,
