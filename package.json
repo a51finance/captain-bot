@@ -10,7 +10,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "compile-abi-types": "typechain --target web3-v1 --out-dir src/contracts/types './src/contracts/abis/**/*.json'",
-    "start": "nest build && nest start",
+    "start": "typechain --target web3-v1 --out-dir src/contracts/types './src/contracts/abis/**/*.json' && nest build && nest start",
     "start:dev": "npm run compile-abi-types && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -41,6 +41,7 @@
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
+    "@typechain/web3-v1": "^3.1.0",
     "@types/cron": "^1.7.3",
     "@types/express": "^4.17.13",
     "@types/jest": "^26.0.24",
@@ -58,6 +59,7 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.10.1",
+    "typechain": "^5.1.2",
     "typescript": "^4.3.5"
   },
   "jest": {
