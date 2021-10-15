@@ -3,7 +3,27 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "unipilotAddress",
+        "name": "oracle_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "ulmState_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "indexFund_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "uniStrategy_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "unipilotAddress_",
         "type": "address"
       }
     ],
@@ -226,17 +246,8 @@
     "type": "event"
   },
   {
-    "inputs": [],
-    "name": "PREMIUM",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    "stateMutability": "payable",
+    "type": "fallback"
   },
   {
     "inputs": [
@@ -401,35 +412,6 @@
         "type": "address"
       },
       {
-        "internalType": "uint24",
-        "name": "fee",
-        "type": "uint24"
-      }
-    ],
-    "name": "getPoolAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "token0",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "token1",
-        "type": "address"
-      },
-      {
         "internalType": "bytes",
         "name": "data",
         "type": "bytes"
@@ -523,25 +505,6 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "isUnipilot",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -608,19 +571,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "oracle",
-    "outputs": [
-      {
-        "internalType": "contract IOracle",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -673,35 +623,6 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "readjustFrequency",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "timestamp",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "counter",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "status",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
         "name": "pool",
         "type": "address"
       }
@@ -742,10 +663,23 @@
   },
   {
     "inputs": [],
-    "name": "unipilot",
+    "name": "ulmState",
     "outputs": [
       {
-        "internalType": "contract IUnipilot",
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "uniStrategy",
+    "outputs": [
+      {
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -795,6 +729,34 @@
       }
     ],
     "name": "uniswapV3SwapCallback",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "oracle_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "ulmState_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "indexFund_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "uniStrategy_",
+        "type": "address"
+      }
+    ],
+    "name": "updateCoreAddresses",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

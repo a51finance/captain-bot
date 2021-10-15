@@ -100,8 +100,6 @@ export interface LiquidityManager extends BaseContract {
   ): LiquidityManager;
   clone(): LiquidityManager;
   methods: {
-    PREMIUM(): NonPayableTransactionObject<string>;
-
     addressToNftId(
       arg0: string,
       arg1: string
@@ -141,12 +139,6 @@ export interface LiquidityManager extends BaseContract {
       4: string;
     }>;
 
-    getPoolAddress(
-      token0: string,
-      token1: string,
-      fee: number | string | BN
-    ): NonPayableTransactionObject<string>;
-
     getReserves(
       token0: string,
       token1: string,
@@ -180,8 +172,6 @@ export interface LiquidityManager extends BaseContract {
       1: string;
     }>;
 
-    isUnipilot(account: string): NonPayableTransactionObject<boolean>;
-
     liquidityPositions(arg0: string): NonPayableTransactionObject<{
       baseTickLower: string;
       baseTickUpper: string;
@@ -207,8 +197,6 @@ export interface LiquidityManager extends BaseContract {
       10: string;
     }>;
 
-    oracle(): NonPayableTransactionObject<string>;
-
     positions(arg0: number | string | BN): NonPayableTransactionObject<{
       nonce: string;
       pool: string;
@@ -226,15 +214,6 @@ export interface LiquidityManager extends BaseContract {
       6: string;
     }>;
 
-    readjustFrequency(arg0: string): NonPayableTransactionObject<{
-      timestamp: string;
-      counter: string;
-      status: boolean;
-      0: string;
-      1: string;
-      2: boolean;
-    }>;
-
     readjustFrequencyStatus(pool: string): NonPayableTransactionObject<boolean>;
 
     readjustLiquidity(
@@ -243,7 +222,9 @@ export interface LiquidityManager extends BaseContract {
       fee: number | string | BN
     ): NonPayableTransactionObject<void>;
 
-    unipilot(): NonPayableTransactionObject<string>;
+    ulmState(): NonPayableTransactionObject<string>;
+
+    uniStrategy(): NonPayableTransactionObject<string>;
 
     uniswapV3MintCallback(
       amount0Owed: number | string | BN,
@@ -255,6 +236,13 @@ export interface LiquidityManager extends BaseContract {
       amount0Delta: number | string | BN,
       amount1Delta: number | string | BN,
       data: string | number[]
+    ): NonPayableTransactionObject<void>;
+
+    updateCoreAddresses(
+      oracle_: string,
+      ulmState_: string,
+      indexFund_: string,
+      uniStrategy_: string
     ): NonPayableTransactionObject<void>;
 
     updatePositionTotalAmounts(_pool: string): NonPayableTransactionObject<{
