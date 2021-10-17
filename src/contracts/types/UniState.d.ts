@@ -29,30 +29,6 @@ export interface UniState extends BaseContract {
   ): UniState;
   clone(): UniState;
   methods: {
-    calculateLiquidity(
-      _poolAddress: string,
-      tickLower: number | string | BN,
-      tickUpper: number | string | BN
-    ): NonPayableTransactionObject<string>;
-
-    calculateShare(
-      amount: number | string | BN,
-      percentageShare: number | string | BN
-    ): NonPayableTransactionObject<string>;
-
-    getLiquidityRatios(
-      _poolAddress: string,
-      _tickLower: number | string | BN,
-      _tickUpper: number | string | BN
-    ): NonPayableTransactionObject<{
-      amount0: string;
-      amount1: string;
-      liquidityRatio: string;
-      0: string;
-      1: string;
-      2: string;
-    }>;
-
     getPoolAddress(
       token0: string,
       token1: string,
@@ -134,6 +110,10 @@ export interface UniState extends BaseContract {
       2: string;
       3: string;
     }>;
+
+    setFeesPercentageIndexFund(
+      newPercentage: number | string | BN
+    ): NonPayableTransactionObject<void>;
 
     shouldReadjust(
       pool: string,

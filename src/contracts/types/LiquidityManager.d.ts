@@ -222,9 +222,13 @@ export interface LiquidityManager extends BaseContract {
       fee: number | string | BN
     ): NonPayableTransactionObject<void>;
 
-    ulmState(): NonPayableTransactionObject<string>;
+    setPilotProtocolDetails(
+      _recipient: string,
+      _pilotPercentage: number | string | BN,
+      _status: boolean
+    ): NonPayableTransactionObject<void>;
 
-    uniStrategy(): NonPayableTransactionObject<string>;
+    toggleFeesInPilot(pool: string): NonPayableTransactionObject<void>;
 
     uniswapV3MintCallback(
       amount0Owed: number | string | BN,
@@ -243,6 +247,10 @@ export interface LiquidityManager extends BaseContract {
       ulmState_: string,
       indexFund_: string,
       uniStrategy_: string
+    ): NonPayableTransactionObject<void>;
+
+    updateNewPremium(
+      _premium: number | string | BN
     ): NonPayableTransactionObject<void>;
 
     updatePositionTotalAmounts(_pool: string): NonPayableTransactionObject<{

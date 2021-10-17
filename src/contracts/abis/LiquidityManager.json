@@ -662,29 +662,39 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "ulmState",
-    "outputs": [
+    "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "_recipient",
         "type": "address"
+      },
+      {
+        "internalType": "uint8",
+        "name": "_pilotPercentage",
+        "type": "uint8"
+      },
+      {
+        "internalType": "bool",
+        "name": "_status",
+        "type": "bool"
       }
     ],
-    "stateMutability": "view",
+    "name": "setPilotProtocolDetails",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "uniStrategy",
-    "outputs": [
+    "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "pool",
         "type": "address"
       }
     ],
-    "stateMutability": "view",
+    "name": "toggleFeesInPilot",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -757,6 +767,19 @@
       }
     ],
     "name": "updateCoreAddresses",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_premium",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateNewPremium",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
