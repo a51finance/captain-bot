@@ -10,7 +10,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "compile-abi-types": "typechain --target web3-v1 --out-dir src/contracts/types './src/contracts/abis/**/*.json'",
-    "start": "typechain --target web3-v1 --out-dir src/contracts/types './src/contracts/abis/**/*.json' && nest build && nest start",
+    "start": "nest start",
     "start:dev": "npm run compile-abi-types && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
