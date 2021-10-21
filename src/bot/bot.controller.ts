@@ -38,7 +38,7 @@ const params = {
 export class BotController {
   constructor() {}
 
-  @Interval(1000 * 60 * 0.5)
+  @Interval(1000 * 60 * 10)
   async getHello() {
     try {
       let web3 = getWeb3WithProvider();
