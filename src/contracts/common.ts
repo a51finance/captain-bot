@@ -37,6 +37,10 @@ export class Wallet {
     return this.web3.utils.toWei(eth, 'ether');
   };
 
+  toGWei = (wei: string) => {
+    return this.web3.utils.fromWei(wei, 'gwei');
+  };
+
   toEth = (wei: string) => {
     return this.web3.utils.fromWei(wei, 'ether');
   };
@@ -46,7 +50,7 @@ export class Wallet {
   };
 
   getTransectionCount = async () => {
-    return await this.web3.eth.getTransactionCount(this.wallets[0].address); // pending
+    return await this.web3.eth.getTransactionCount(this.wallets[0].address);
   };
 
   getGasPrice = async () => {
@@ -69,6 +73,9 @@ export class Wallet {
     data = undefined,
     nonce = undefined,
     gasPrice = undefined,
+    gasLimit = undefined,
+    maxFeePerGas = undefined,
+    maxPriorityFeePerGas = undefined,
   }) => {
     const tx = {
       from: this.wallets[0].address,
@@ -109,6 +116,20 @@ export class Wallet {
       tx.gasPrice = '0x' + this.convertToHex(gasPrice);
     }
 
+    if (gasLimit) {
+      // @ts-ignore
+      tx.gasLimit = '0x' + this.convertToHex(gasLimit);
+    }
+
+    if (maxFeePerGas) {
+      // @ts-ignore
+      tx.maxFeePerGas = '0x' + this.convertToHex(maxFeePerGas);
+    }
+
+    if (maxPriorityFeePerGas) {
+      // @ts-ignore
+      tx.maxPriorityFeePerGas = '0x' + this.convertToHex(maxPriorityFeePerGas);
+    }
     return tx;
   };
 }

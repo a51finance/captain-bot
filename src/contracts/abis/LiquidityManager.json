@@ -252,30 +252,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "addressToNftId",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "bool",
         "name": "pilotToken",
         "type": "bool"
@@ -665,6 +641,39 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "oracle_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "ulmState_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "indexFund_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "uniStrategy_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "unipilotAddress_",
+        "type": "address"
+      }
+    ],
+    "name": "setCoreAddresses",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "_recipient",
         "type": "address"
       },
@@ -680,6 +689,29 @@
       }
     ],
     "name": "setPilotProtocolDetails",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "premium_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "gasPriceLimit_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "readjustSwapStatus_",
+        "type": "bool"
+      }
+    ],
+    "name": "setReadjustDetails",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -739,47 +771,6 @@
       }
     ],
     "name": "uniswapV3SwapCallback",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "oracle_",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "ulmState_",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "indexFund_",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "uniStrategy_",
-        "type": "address"
-      }
-    ],
-    "name": "updateCoreAddresses",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_premium",
-        "type": "uint256"
-      }
-    ],
-    "name": "updateNewPremium",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

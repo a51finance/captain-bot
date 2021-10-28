@@ -100,11 +100,6 @@ export interface LiquidityManager extends BaseContract {
   ): LiquidityManager;
   clone(): LiquidityManager;
   methods: {
-    addressToNftId(
-      arg0: string,
-      arg1: string
-    ): NonPayableTransactionObject<string>;
-
     collect(
       pilotToken: boolean,
       wethToken: boolean,
@@ -222,10 +217,24 @@ export interface LiquidityManager extends BaseContract {
       fee: number | string | BN
     ): NonPayableTransactionObject<void>;
 
+    setCoreAddresses(
+      oracle_: string,
+      ulmState_: string,
+      indexFund_: string,
+      uniStrategy_: string,
+      unipilotAddress_: string
+    ): NonPayableTransactionObject<void>;
+
     setPilotProtocolDetails(
       _recipient: string,
       _pilotPercentage: number | string | BN,
       _status: boolean
+    ): NonPayableTransactionObject<void>;
+
+    setReadjustDetails(
+      premium_: number | string | BN,
+      gasPriceLimit_: number | string | BN,
+      readjustSwapStatus_: boolean
     ): NonPayableTransactionObject<void>;
 
     toggleFeesInPilot(pool: string): NonPayableTransactionObject<void>;
@@ -240,17 +249,6 @@ export interface LiquidityManager extends BaseContract {
       amount0Delta: number | string | BN,
       amount1Delta: number | string | BN,
       data: string | number[]
-    ): NonPayableTransactionObject<void>;
-
-    updateCoreAddresses(
-      oracle_: string,
-      ulmState_: string,
-      indexFund_: string,
-      uniStrategy_: string
-    ): NonPayableTransactionObject<void>;
-
-    updateNewPremium(
-      _premium: number | string | BN
     ): NonPayableTransactionObject<void>;
 
     updatePositionTotalAmounts(_pool: string): NonPayableTransactionObject<{

@@ -52,7 +52,7 @@ export class BotController {
       const maxTick = 887272;
 
       data?.unipilotPositions.forEach((position: any, idx) => {
-        const threshold = 1;
+        const threshold = 0;
         const liquidity = new BigNumber(
           wallet.toEth(position?.pool?.liquidity),
         );
@@ -82,26 +82,33 @@ export class BotController {
 
       let txCount = await wallet.getTransectionCount();
 
-      outOfRangePositions.forEach(async (position, idx) => {
-        shouldReadjust[idx] &&
-          !readjustFrequencyStatus[idx] &&
-          (await this.rebase({ wallet, position, txCount: txCount++ }));
+      let allowedToRebase = [];
+
+      outOfRangePositions.forEach((position, idx) => {
+        if (shouldReadjust[idx] && !readjustFrequencyStatus[idx])
+          allowedToRebase.push(position);
+      });
+
+      await this.rebase({
+        wallet,
+        positions: allowedToRebase,
+        txCount: txCount,
+        idx: 0,
       });
     } catch (e) {}
   }
 
-  async rebase({ wallet, position, txCount }: any) {
+  async rebase({ wallet, positions, txCount, idx }: any) {
+    if (positions.length <= idx) return;
+
     try {
       const chainId = 4;
       const _reAdjust = reAdjust({
-        token0: position?.token0Address,
-        token1: position?.token1Address,
-        feeTier: position?.feeTier,
+        token0: positions[idx]?.token0Address,
+        token1: positions[idx]?.token1Address,
+        feeTier: positions[idx]?.feeTier,
       });
 
-      const gasPrice = await wallet.getGasPrice();
-
-      // for catching error
       const gas = await wallet.getEstimatedGas(
         wallet.getTxObject({
           to: CONTRACT_ADDRESSES.LiquidityManager,
@@ -110,14 +117,14 @@ export class BotController {
           chainId: '0x' + wallet.convertToHex(chainId),
         }),
       );
-      // ---------
 
       const txObject = wallet.getTxObject({
         to: CONTRACT_ADDRESSES.LiquidityManager,
         data: _reAdjust,
         nonce: txCount,
-        gas: 10000000,
-        gasPrice,
+        gas: parseInt(gas).toString(),
+        gasLimit: '1529678',
+        maxFeePerGas: '250000000000',
       });
 
       const txSigned = await wallet.getSignedTx(txObject);
@@ -128,8 +135,13 @@ export class BotController {
         tx: `${URL_ETHERSCAN}${tx?.transactionHash}`,
         from: wallet.wallets[0].address,
         cumulativeGasUsed: tx?.cumulativeGasUsed,
-        effectiveGasPrice: `${parseInt(tx?.effectiveGasPrice)} GWei`,
+        effectiveGasPrice: `${parseInt(
+          wallet.toGWei(tx?.effectiveGasPrice),
+        )} GWei`,
       });
-    } catch (e) {}
+      this.rebase({ wallet, positions, txCount: txCount + 1, idx: idx + 1 });
+    } catch (e) {
+      this.rebase({ wallet, positions, txCount: txCount, idx: idx + 1 });
+    }
   }
 }
