@@ -1,6 +1,6 @@
 export const CONTRACT_ADDRESSES = {
-  LiquidityManager: '0xd526b4ecdb6db2a1b6eae50c3b721b69112d005d',
-  uniState: '0x52b29E16e509E673CBB8793687C92593266D3F4E',
+  LiquidityManager: '0x0510fdd44ee837998a3e36b7567e057c3a30994f',
+  uniState: '0xD1D32C840C53BE887CbD3f225E304255BCEEaCa6',
   multiCall: '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821',
 };
 
