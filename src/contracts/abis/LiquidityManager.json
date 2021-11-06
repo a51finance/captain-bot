@@ -404,9 +404,14 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_recipient", "type": "address" },
-      { "internalType": "uint8", "name": "_pilotPercentage", "type": "uint8" },
-      { "internalType": "bool", "name": "_status", "type": "bool" }
+      { "internalType": "address", "name": "recipient", "type": "address" },
+      { "internalType": "uint8", "name": "pilotPercentage", "type": "uint8" },
+      {
+        "internalType": "uint8",
+        "name": "userPilotPercentage",
+        "type": "uint8"
+      },
+      { "internalType": "bool", "name": "status", "type": "bool" }
     ],
     "name": "setPilotProtocolDetails",
     "outputs": [],

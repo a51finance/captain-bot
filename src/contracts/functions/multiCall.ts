@@ -24,6 +24,7 @@ export const aggregate = async ({
     const decoded = results.returnData.map((data) => {
       return web3.eth.abi.decodeParameter('bool', data);
     });
+
     return decoded;
   } catch (e) {
     return [];

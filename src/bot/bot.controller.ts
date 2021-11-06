@@ -33,7 +33,7 @@ const params = {
 export class BotController {
   constructor() {}
 
-  @Interval(1000 * 60 * 1)
+  @Interval(1000 * 60 * 15)
   async getHello() {
     try {
       let web3 = getWeb3WithProvider();
@@ -97,7 +97,7 @@ export class BotController {
     if (positions.length <= idx) return;
 
     try {
-      const chainId = 5;
+      const chainId = 4;
       const _reAdjust = reAdjust({
         token0: positions[idx]?.token0Address,
         token1: positions[idx]?.token1Address,
@@ -123,8 +123,6 @@ export class BotController {
         data: _reAdjust,
         nonce: txCount,
         gas: parseInt(gas).toString(),
-        chainId,
-        gasLimit: '1529678',
         maxFeePerGas: '250000000000',
       });
 
@@ -140,7 +138,6 @@ export class BotController {
           wallet.toGWei(tx?.effectiveGasPrice),
         )} GWei`,
       });
-      console.log('Pool address => ', positions[idx].poolAddress);
       this.rebase({ wallet, positions, txCount: txCount + 1, idx: idx + 1 });
     } catch (e) {
       this.rebase({ wallet, positions, txCount: txCount, idx: idx + 1 });

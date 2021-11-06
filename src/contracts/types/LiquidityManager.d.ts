@@ -214,9 +214,10 @@ export interface LiquidityManager extends BaseContract {
     ): NonPayableTransactionObject<void>;
 
     setPilotProtocolDetails(
-      _recipient: string,
-      _pilotPercentage: number | string | BN,
-      _status: boolean
+      recipient: string,
+      pilotPercentage: number | string | BN,
+      userPilotPercentage: number | string | BN,
+      status: boolean
     ): NonPayableTransactionObject<void>;
 
     setReadjustPremiumForPools(
