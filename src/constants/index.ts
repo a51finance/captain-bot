@@ -1,8 +1,9 @@
 export const CONTRACT_ADDRESSES = {
-  LiquidityManager: '0x0510fdd44ee837998a3e36b7567e057c3a30994f',
-  uniState: '0xD1D32C840C53BE887CbD3f225E304255BCEEaCa6',
-  multiCall: '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821',
+  LiquidityManager: '0x387d33592f58dcdc28555d288169a32c5293360d',
+  uniState: '0x9eE446aB54B4478e7765767BcB4d44Ffcc981085',
+  multiCall: '0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e',
 };
 
-export const URL_ETHERSCAN = 'https://rinkeby.etherscan.io/tx/';
-export const SUBGRAPH_URI = `https://api.thegraph.com/subgraphs/name/bilalmir135/captain-bot-round3`;
+export const URL_ETHERSCAN = 'https://goerli.etherscan.io/tx/';
+export const SUBGRAPH_URI =
+  'https://api.thegraph.com/subgraphs/name/bilalmir135/captain-bot-goerli';

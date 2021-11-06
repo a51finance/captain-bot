@@ -12,11 +12,6 @@ import { subgraphRequest } from 'src/utils';
 
 const params = {
   unipilotPositions: {
-    __args: {
-      where: {
-        liquidity_gt: 0,
-      },
-    },
     id: true,
     liquidity: true,
     pool: {
@@ -38,7 +33,7 @@ const params = {
 export class BotController {
   constructor() {}
 
-  @Interval(1000 * 60 * 10)
+  @Interval(1000 * 60 * 1)
   async getHello() {
     try {
       let web3 = getWeb3WithProvider();
@@ -102,12 +97,17 @@ export class BotController {
     if (positions.length <= idx) return;
 
     try {
-      const chainId = 4;
+      const chainId = 5;
       const _reAdjust = reAdjust({
         token0: positions[idx]?.token0Address,
         token1: positions[idx]?.token1Address,
         feeTier: positions[idx]?.feeTier,
       });
+
+      const [gasPrice, block] = await Promise.all([
+        wallet.getGasPrice(),
+        wallet.getLatestBlockInfo(),
+      ]);
 
       const gas = await wallet.getEstimatedGas(
         wallet.getTxObject({
@@ -123,6 +123,7 @@ export class BotController {
         data: _reAdjust,
         nonce: txCount,
         gas: parseInt(gas).toString(),
+        chainId,
         gasLimit: '1529678',
         maxFeePerGas: '250000000000',
       });
@@ -139,6 +140,7 @@ export class BotController {
           wallet.toGWei(tx?.effectiveGasPrice),
         )} GWei`,
       });
+      console.log('Pool address => ', positions[idx].poolAddress);
       this.rebase({ wallet, positions, txCount: txCount + 1, idx: idx + 1 });
     } catch (e) {
       this.rebase({ wallet, positions, txCount: txCount, idx: idx + 1 });

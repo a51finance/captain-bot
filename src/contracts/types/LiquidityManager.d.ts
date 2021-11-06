@@ -122,17 +122,18 @@ export interface LiquidityManager extends BaseContract {
       shares: number | string | BN,
       data: string | number[]
     ): PayableTransactionObject<{
-      amount0Base: string;
-      amount1Base: string;
-      amount0Range: string;
-      amount1Range: string;
+      amount0Added: string;
+      amount1Added: string;
       mintedTokenId: string;
       0: string;
       1: string;
       2: string;
-      3: string;
-      4: string;
     }>;
+
+    emergencyExit(
+      recipient: string,
+      data: (string | number[])[]
+    ): NonPayableTransactionObject<void>;
 
     getReserves(
       token0: string,
@@ -145,19 +146,6 @@ export interface LiquidityManager extends BaseContract {
       0: string;
       1: string;
       2: string;
-    }>;
-
-    getTotalAmounts(pool: string): NonPayableTransactionObject<{
-      fee0: string;
-      fee1: string;
-      amount0: string;
-      amount1: string;
-      totalLiquidity: string;
-      0: string;
-      1: string;
-      2: string;
-      3: string;
-      4: string;
     }>;
 
     getUserFees(tokenId: number | string | BN): NonPayableTransactionObject<{
@@ -231,9 +219,11 @@ export interface LiquidityManager extends BaseContract {
       _status: boolean
     ): NonPayableTransactionObject<void>;
 
-    setReadjustDetails(
+    setReadjustPremiumForPools(
+      pool: string,
       premium_: number | string | BN,
       gasPriceLimit_: number | string | BN,
+      premiumStatus_: boolean,
       readjustSwapStatus_: boolean
     ): NonPayableTransactionObject<void>;
 

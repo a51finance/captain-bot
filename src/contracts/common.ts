@@ -1,7 +1,7 @@
 const Web3 = require('web3');
 
 export const getWeb3WithProvider = () => {
-  return new Web3(`https://rinkeby.infura.io/v3/${process.env.INFURA_KEY}`);
+  return new Web3(`https://goerli.infura.io/v3/${process.env.INFURA_KEY}`);
 };
 
 export const getContract = (ABI: any, contractAddress: string) => {
@@ -50,7 +50,7 @@ export class Wallet {
   };
 
   getTransectionCount = async () => {
-    return await this.web3.eth.getTransactionCount(this.wallets[0].address);
+    return await this.web3.eth.getTransactionCount(this.wallets[0].address); // pending
   };
 
   getGasPrice = async () => {

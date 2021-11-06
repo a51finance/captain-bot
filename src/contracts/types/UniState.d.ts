@@ -97,6 +97,22 @@ export interface UniState extends BaseContract {
       3: string;
     }>;
 
+    getTotalAmounts(
+      pool: string,
+      liquidityManager: string
+    ): NonPayableTransactionObject<{
+      fee0: string;
+      fee1: string;
+      amount0: string;
+      amount1: string;
+      totalLiquidity: string;
+      0: string;
+      1: string;
+      2: string;
+      3: string;
+      4: string;
+    }>;
+
     getUserAndIndexShares(
       _tokensOwed0: number | string | BN,
       _tokensOwed1: number | string | BN
