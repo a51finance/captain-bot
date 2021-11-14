@@ -21,6 +21,13 @@ interface EventOptions {
   topics?: string[];
 }
 
+export type GovernanceUpdated = ContractEventLog<{
+  oldGovernance: string;
+  newGovernance: string;
+  0: string;
+  1: string;
+}>;
+
 export interface UniState extends BaseContract {
   constructor(
     jsonInterface: any[],
@@ -114,8 +121,8 @@ export interface UniState extends BaseContract {
     }>;
 
     getUserAndIndexShares(
-      _tokensOwed0: number | string | BN,
-      _tokensOwed1: number | string | BN
+      tokensOwed0: number | string | BN,
+      tokensOwed1: number | string | BN
     ): NonPayableTransactionObject<{
       indexAmount0: string;
       indexAmount1: string;
@@ -131,12 +138,27 @@ export interface UniState extends BaseContract {
       newPercentage: number | string | BN
     ): NonPayableTransactionObject<void>;
 
+    setGovernance(_governance: string): NonPayableTransactionObject<void>;
+
     shouldReadjust(
       pool: string,
       liquidityManagerAddress: string
     ): NonPayableTransactionObject<boolean>;
   };
   events: {
+    GovernanceUpdated(cb?: Callback<GovernanceUpdated>): EventEmitter;
+    GovernanceUpdated(
+      options?: EventOptions,
+      cb?: Callback<GovernanceUpdated>
+    ): EventEmitter;
+
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
+
+  once(event: "GovernanceUpdated", cb: Callback<GovernanceUpdated>): void;
+  once(
+    event: "GovernanceUpdated",
+    options: EventOptions,
+    cb: Callback<GovernanceUpdated>
+  ): void;
 }

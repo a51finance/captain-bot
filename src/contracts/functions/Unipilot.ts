@@ -67,3 +67,89 @@ export const readjustFrequencyStatusAll = async (pools): Promise<any> => {
     return [];
   }
 };
+
+export const readjustFrequencyStatusFunc = async (
+  pool: string,
+): Promise<Boolean> => {
+  try {
+    const instance = getWeb3WithProvider();
+
+    const ulmUnipilot: LiquidityManager = new instance.eth.Contract(
+      liquidityManagerABI,
+      CONTRACT_ADDRESSES.LiquidityManager,
+    );
+
+    const result = await ulmUnipilot.methods
+      .readjustFrequencyStatus(pool)
+      .call();
+
+    return result;
+  } catch (e) {
+    return false;
+  }
+};
+
+interface IUpdatePositionTotalAmountsFunc {
+  fee0: string;
+  fee1: string;
+  amount0: string;
+  amount1: string;
+}
+
+export const updatePositionTotalAmountsFunc = async (
+  pool: string,
+): Promise<IUpdatePositionTotalAmountsFunc> => {
+  try {
+    const instance = getWeb3WithProvider();
+
+    const ulmUnipilot: LiquidityManager = new instance.eth.Contract(
+      liquidityManagerABI,
+      CONTRACT_ADDRESSES.LiquidityManager,
+    );
+
+    const result = await ulmUnipilot.methods
+      .updatePositionTotalAmounts(pool)
+      .call();
+
+    const { fee0, fee1, amount0, amount1 } = result;
+
+    let filtered = {
+      fee0,
+      fee1,
+      amount0,
+      amount1,
+    };
+
+    return filtered;
+  } catch (e) {
+    return {
+      fee0: '',
+      fee1: '',
+      amount0: '',
+      amount1: '',
+    };
+  }
+};
+
+export const getPremiumStatusForPoolsFunc = async (
+  pool: string,
+): Promise<boolean> => {
+  try {
+    const instance = getWeb3WithProvider();
+
+    const ulmUnipilot: LiquidityManager = new instance.eth.Contract(
+      liquidityManagerABI,
+      CONTRACT_ADDRESSES.LiquidityManager,
+    );
+
+    const result = await ulmUnipilot.methods
+      .getPremiumStatusForPools(pool)
+      .call();
+
+    const { premiumForReadjust } = result;
+
+    return premiumForReadjust;
+  } catch (e) {
+    return false;
+  }
+};

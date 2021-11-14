@@ -294,6 +294,18 @@
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "pool", "type": "address" }
+    ],
+    "name": "getPremiumStatusForPools",
+    "outputs": [
+      { "internalType": "bool", "name": "feesInPilot", "type": "bool" },
+      { "internalType": "bool", "name": "premiumForReadjust", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "address", "name": "token0", "type": "address" },
       { "internalType": "address", "name": "token1", "type": "address" },
       { "internalType": "bytes", "name": "data", "type": "bytes" }
@@ -427,8 +439,7 @@
         "name": "gasPriceLimit_",
         "type": "uint256"
       },
-      { "internalType": "bool", "name": "premiumStatus_", "type": "bool" },
-      { "internalType": "bool", "name": "readjustSwapStatus_", "type": "bool" }
+      { "internalType": "bool", "name": "premiumStatus_", "type": "bool" }
     ],
     "name": "setReadjustPremiumForPools",
     "outputs": [],

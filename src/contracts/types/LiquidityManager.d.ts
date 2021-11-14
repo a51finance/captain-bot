@@ -135,6 +135,13 @@ export interface LiquidityManager extends BaseContract {
       data: (string | number[])[]
     ): NonPayableTransactionObject<void>;
 
+    getPremiumStatusForPools(pool: string): NonPayableTransactionObject<{
+      feesInPilot: boolean;
+      premiumForReadjust: boolean;
+      0: boolean;
+      1: boolean;
+    }>;
+
     getReserves(
       token0: string,
       token1: string,
@@ -224,8 +231,7 @@ export interface LiquidityManager extends BaseContract {
       pool: string,
       premium_: number | string | BN,
       gasPriceLimit_: number | string | BN,
-      premiumStatus_: boolean,
-      readjustSwapStatus_: boolean
+      premiumStatus_: boolean
     ): NonPayableTransactionObject<void>;
 
     toggleFeesInPilot(pool: string): NonPayableTransactionObject<void>;

@@ -1,6 +1,25 @@
 [
   { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "oldGovernance",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newGovernance",
+        "type": "address"
+      }
+    ],
+    "name": "GovernanceUpdated",
+    "type": "event"
+  },
+  {
     "inputs": [
       { "internalType": "address", "name": "token0", "type": "address" },
       { "internalType": "address", "name": "token1", "type": "address" },
@@ -106,8 +125,8 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_tokensOwed0", "type": "uint256" },
-      { "internalType": "uint256", "name": "_tokensOwed1", "type": "uint256" }
+      { "internalType": "uint256", "name": "tokensOwed0", "type": "uint256" },
+      { "internalType": "uint256", "name": "tokensOwed1", "type": "uint256" }
     ],
     "name": "getUserAndIndexShares",
     "outputs": [
@@ -124,6 +143,15 @@
       { "internalType": "uint8", "name": "newPercentage", "type": "uint8" }
     ],
     "name": "setFeesPercentageIndexFund",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_governance", "type": "address" }
+    ],
+    "name": "setGovernance",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

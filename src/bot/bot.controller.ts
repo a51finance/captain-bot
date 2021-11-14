@@ -1,9 +1,9 @@
 import { Controller } from '@nestjs/common';
 import { Interval } from '@nestjs/schedule';
 import { CONTRACT_ADDRESSES, SUBGRAPH_URI, URL_ETHERSCAN } from 'src/constants';
-import BigNumber from 'bignumber.js';
 import { getWeb3WithProvider, Wallet } from 'src/contracts/common';
 import {
+  getPremiumStatusForPoolsFunc,
   reAdjust,
   readjustFrequencyStatusAll,
 } from 'src/contracts/functions/Unipilot';
@@ -11,14 +11,11 @@ import { shouldReAdjustAll } from 'src/contracts/functions/UniState';
 import { subgraphRequest } from 'src/utils';
 
 const params = {
-  unipilotPositions: {
-    id: true,
-    liquidity: true,
-    pool: {
-      tick: true,
-      liquidity: true,
-      feeTier: true,
+  uniPools: {
+    uniswapPool: {
       id: true,
+      tick: true,
+      feeTier: true,
       token0: {
         id: true,
       },
@@ -46,22 +43,19 @@ export class BotController {
       const minTick = -887272;
       const maxTick = 887272;
 
-      data?.unipilotPositions.forEach((position: any, idx) => {
-        const threshold = 0;
-        const liquidity = new BigNumber(
-          wallet.toEth(position?.pool?.liquidity),
-        );
+      data?.uniPools.forEach((position: any, idx) => {
+        if (!position?.uniswapPool?.tick) return;
 
         const tickInRange =
-          parseFloat(position?.pool?.tick) > minTick &&
-          parseFloat(position?.pool?.tick) < maxTick;
+          parseFloat(position?.uniswapPool?.tick) > minTick &&
+          parseFloat(position?.uniswapPool?.tick) < maxTick;
 
-        if (liquidity.toNumber() > threshold && tickInRange) {
+        if (tickInRange) {
           outOfRangePositions.push({
-            poolAddress: position?.pool?.id,
-            token0Address: position?.pool?.token0?.id,
-            token1Address: position?.pool?.token1?.id,
-            feeTier: position?.pool?.feeTier,
+            poolAddress: position?.uniswapPool?.id,
+            token0Address: position?.uniswapPool?.token0?.id,
+            token1Address: position?.uniswapPool?.token1?.id,
+            feeTier: position?.uniswapPool?.feeTier,
           });
         }
       });
@@ -98,16 +92,21 @@ export class BotController {
 
     try {
       const chainId = 4;
+
+      let isPremium = await getPremiumStatusForPoolsFunc(
+        positions[idx].poolAddress,
+      );
+
+      if (!isPremium)
+        throw new Error(
+          `Pool isn't premium: Pool Addr => ${positions[idx].poolAddress}`,
+        );
+
       const _reAdjust = reAdjust({
         token0: positions[idx]?.token0Address,
         token1: positions[idx]?.token1Address,
         feeTier: positions[idx]?.feeTier,
       });
-
-      const [gasPrice, block] = await Promise.all([
-        wallet.getGasPrice(),
-        wallet.getLatestBlockInfo(),
-      ]);
 
       const gas = await wallet.getEstimatedGas(
         wallet.getTxObject({
@@ -127,6 +126,7 @@ export class BotController {
       });
 
       const txSigned = await wallet.getSignedTx(txObject);
+
       const tx = await wallet.sendSignedTx(txSigned);
 
       console.log('TX Info => ', {
@@ -138,6 +138,7 @@ export class BotController {
           wallet.toGWei(tx?.effectiveGasPrice),
         )} GWei`,
       });
+      console.log('Pool address => ', positions[idx].poolAddress);
       this.rebase({ wallet, positions, txCount: txCount + 1, idx: idx + 1 });
     } catch (e) {
       this.rebase({ wallet, positions, txCount: txCount, idx: idx + 1 });
