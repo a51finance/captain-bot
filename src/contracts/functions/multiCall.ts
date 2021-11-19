@@ -21,12 +21,15 @@ export const aggregate = async ({
     const web3 = getWeb3WithProvider();
     const multiCall = getContract(multiCallABI, CONTRACT_ADDRESSES.multiCall);
     const results = await multiCall.methods.aggregate(calls).call();
+    console.log(results);
     const decoded = results.returnData.map((data) => {
       return web3.eth.abi.decodeParameter('bool', data);
     });
+    console.log(decoded);
 
     return decoded;
   } catch (e) {
+    console.log('Multicall', e);
     return [];
   }
 };
@@ -52,10 +55,10 @@ export default class Multicaller {
 
   call(configs): Multicaller {
     this.decodeParam.push(configs[0]);
-    this.calls.push({
-      target: configs[1],
-      callData: this.instance.methods[configs[2]](...configs[3]).encodeABI(),
-    });
+    this.calls.push([
+      configs[1],
+      this.instance.methods[configs[2]](...configs[3]).encodeABI(),
+    ]);
     return this;
   }
 

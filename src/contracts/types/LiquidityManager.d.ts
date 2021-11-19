@@ -25,8 +25,6 @@ export type Collect = ContractEventLog<{
   tokenId: string;
   userAmount0: string;
   userAmount1: string;
-  indexAmount0: string;
-  indexAmount1: string;
   pilotAmount: string;
   pool: string;
   recipient: string;
@@ -36,8 +34,6 @@ export type Collect = ContractEventLog<{
   3: string;
   4: string;
   5: string;
-  6: string;
-  7: string;
 }>;
 export type Deposited = ContractEventLog<{
   pool: string;
@@ -116,31 +112,18 @@ export interface LiquidityManager extends BaseContract {
     deposit(
       token0: string,
       token1: string,
-      sender: string,
       amount0Desired: number | string | BN,
       amount1Desired: number | string | BN,
       shares: number | string | BN,
+      tokenId: number | string | BN,
+      isTokenMinted: boolean,
       data: string | number[]
-    ): PayableTransactionObject<{
-      amount0Added: string;
-      amount1Added: string;
-      mintedTokenId: string;
-      0: string;
-      1: string;
-      2: string;
-    }>;
+    ): PayableTransactionObject<void>;
 
     emergencyExit(
       recipient: string,
       data: (string | number[])[]
     ): NonPayableTransactionObject<void>;
-
-    getPremiumStatusForPools(pool: string): NonPayableTransactionObject<{
-      feesInPilot: boolean;
-      premiumForReadjust: boolean;
-      0: boolean;
-      1: boolean;
-    }>;
 
     getReserves(
       token0: string,
@@ -162,47 +145,30 @@ export interface LiquidityManager extends BaseContract {
       1: string;
     }>;
 
-    liquidityPositions(arg0: string): NonPayableTransactionObject<{
-      baseTickLower: string;
-      baseTickUpper: string;
-      baseLiquidity: string;
-      rangeTickLower: string;
-      rangeTickUpper: string;
-      rangeLiquidity: string;
-      fees0: string;
-      fees1: string;
-      feeGrowthGlobal0: string;
-      feeGrowthGlobal1: string;
-      totalLiquidity: string;
-      0: string;
-      1: string;
-      2: string;
-      3: string;
-      4: string;
-      5: string;
-      6: string;
-      7: string;
-      8: string;
-      9: string;
-      10: string;
-    }>;
-
-    positions(arg0: number | string | BN): NonPayableTransactionObject<{
-      nonce: string;
-      pool: string;
-      liquidity: string;
-      feeGrowth0: string;
-      feeGrowth1: string;
-      tokensOwed0: string;
-      tokensOwed1: string;
-      0: string;
-      1: string;
-      2: string;
-      3: string;
-      4: string;
-      5: string;
-      6: string;
-    }>;
+    poolPositions(
+      pool: string
+    ): NonPayableTransactionObject<
+      [
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        boolean,
+        string,
+        string,
+        string,
+        string,
+        boolean,
+        boolean
+      ]
+    >;
 
     readjustFrequencyStatus(pool: string): NonPayableTransactionObject<boolean>;
 
@@ -212,29 +178,37 @@ export interface LiquidityManager extends BaseContract {
       fee: number | string | BN
     ): NonPayableTransactionObject<void>;
 
-    setCoreAddresses(
-      oracle_: string,
-      ulmState_: string,
-      indexFund_: string,
-      uniStrategy_: string,
-      unipilotAddress_: string
-    ): NonPayableTransactionObject<void>;
-
     setPilotProtocolDetails(
-      recipient: string,
-      pilotPercentage: number | string | BN,
-      userPilotPercentage: number | string | BN,
-      status: boolean
+      params: [
+        number | string | BN,
+        number | string | BN,
+        number | string | BN,
+        number | string | BN,
+        number | string | BN,
+        number | string | BN,
+        number | string | BN,
+        number | string | BN,
+        string,
+        string,
+        string,
+        string,
+        string
+      ]
     ): NonPayableTransactionObject<void>;
 
-    setReadjustPremiumForPools(
+    setPoolIncentives(
       pool: string,
-      premium_: number | string | BN,
-      gasPriceLimit_: number | string | BN,
-      premiumStatus_: boolean
+      feesInPilot_: boolean,
+      managed_: boolean,
+      oracle0: string,
+      oracle1: string
     ): NonPayableTransactionObject<void>;
 
-    toggleFeesInPilot(pool: string): NonPayableTransactionObject<void>;
+    shouldReadjust(
+      pool: string,
+      baseTickLower: number | string | BN,
+      baseTickUpper: number | string | BN
+    ): NonPayableTransactionObject<boolean>;
 
     uniswapV3MintCallback(
       amount0Owed: number | string | BN,
@@ -249,17 +223,19 @@ export interface LiquidityManager extends BaseContract {
     ): NonPayableTransactionObject<void>;
 
     updatePositionTotalAmounts(_pool: string): NonPayableTransactionObject<{
-      fee0: string;
-      fee1: string;
       amount0: string;
       amount1: string;
       totalLiquidity: string;
       0: string;
       1: string;
       2: string;
-      3: string;
-      4: string;
     }>;
+
+    userPositions(
+      tokenId: number | string | BN
+    ): NonPayableTransactionObject<
+      [string, string, string, string, string, string, string]
+    >;
 
     withdraw(
       pilotToken: boolean,

@@ -1,13 +1,65 @@
 [
   {
     "inputs": [
-      { "internalType": "address", "name": "oracle_", "type": "address" },
-      { "internalType": "address", "name": "ulmState_", "type": "address" },
-      { "internalType": "address", "name": "indexFund_", "type": "address" },
-      { "internalType": "address", "name": "uniStrategy_", "type": "address" },
+      {
+        "components": [
+          {
+            "internalType": "uint8",
+            "name": "swapPercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint24",
+            "name": "swapPriceThreshold",
+            "type": "uint24"
+          },
+          { "internalType": "uint256", "name": "premium", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "gasPriceLimit",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "userPilotPercentage",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "feesPercentageIndexFund",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint24",
+            "name": "readjustFrequencyTime",
+            "type": "uint24"
+          },
+          {
+            "internalType": "uint16",
+            "name": "poolCardinalityDesired",
+            "type": "uint16"
+          },
+          {
+            "internalType": "address",
+            "name": "pilotWethPair",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "oracle", "type": "address" },
+          { "internalType": "address", "name": "indexFund", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "uniStrategy",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "unipilot", "type": "address" }
+        ],
+        "internalType": "struct IUniswapLiquidityManager.UnipilotProtocolDetails",
+        "name": "params",
+        "type": "tuple"
+      },
       {
         "internalType": "address",
-        "name": "unipilotAddress_",
+        "name": "_uniswapFactory",
         "type": "address"
       }
     ],
@@ -33,18 +85,6 @@
         "indexed": false,
         "internalType": "uint256",
         "name": "userAmount1",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "indexAmount0",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "indexAmount1",
         "type": "uint256"
       },
       {
@@ -259,7 +299,6 @@
     "inputs": [
       { "internalType": "address", "name": "token0", "type": "address" },
       { "internalType": "address", "name": "token1", "type": "address" },
-      { "internalType": "address", "name": "sender", "type": "address" },
       {
         "internalType": "uint256",
         "name": "amount0Desired",
@@ -271,14 +310,12 @@
         "type": "uint256"
       },
       { "internalType": "uint256", "name": "shares", "type": "uint256" },
+      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+      { "internalType": "bool", "name": "isTokenMinted", "type": "bool" },
       { "internalType": "bytes", "name": "data", "type": "bytes" }
     ],
     "name": "deposit",
-    "outputs": [
-      { "internalType": "uint256", "name": "amount0Added", "type": "uint256" },
-      { "internalType": "uint256", "name": "amount1Added", "type": "uint256" },
-      { "internalType": "uint256", "name": "mintedTokenId", "type": "uint256" }
-    ],
+    "outputs": [],
     "stateMutability": "payable",
     "type": "function"
   },
@@ -294,18 +331,6 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "pool", "type": "address" }
-    ],
-    "name": "getPremiumStatusForPools",
-    "outputs": [
-      { "internalType": "bool", "name": "feesInPilot", "type": "bool" },
-      { "internalType": "bool", "name": "premiumForReadjust", "type": "bool" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
       { "internalType": "address", "name": "token0", "type": "address" },
       { "internalType": "address", "name": "token1", "type": "address" },
       { "internalType": "bytes", "name": "data", "type": "bytes" }
@@ -316,7 +341,7 @@
       { "internalType": "uint256", "name": "totalAmount1", "type": "uint256" },
       { "internalType": "uint256", "name": "totalLiquidity", "type": "uint256" }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -332,47 +357,64 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "liquidityPositions",
-    "outputs": [
-      { "internalType": "int24", "name": "baseTickLower", "type": "int24" },
-      { "internalType": "int24", "name": "baseTickUpper", "type": "int24" },
-      { "internalType": "uint128", "name": "baseLiquidity", "type": "uint128" },
-      { "internalType": "int24", "name": "rangeTickLower", "type": "int24" },
-      { "internalType": "int24", "name": "rangeTickUpper", "type": "int24" },
-      {
-        "internalType": "uint128",
-        "name": "rangeLiquidity",
-        "type": "uint128"
-      },
-      { "internalType": "uint256", "name": "fees0", "type": "uint256" },
-      { "internalType": "uint256", "name": "fees1", "type": "uint256" },
-      {
-        "internalType": "uint256",
-        "name": "feeGrowthGlobal0",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "feeGrowthGlobal1",
-        "type": "uint256"
-      },
-      { "internalType": "uint256", "name": "totalLiquidity", "type": "uint256" }
+    "inputs": [
+      { "internalType": "address", "name": "pool", "type": "address" }
     ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "positions",
+    "name": "poolPositions",
     "outputs": [
-      { "internalType": "uint256", "name": "nonce", "type": "uint256" },
-      { "internalType": "address", "name": "pool", "type": "address" },
-      { "internalType": "uint256", "name": "liquidity", "type": "uint256" },
-      { "internalType": "uint256", "name": "feeGrowth0", "type": "uint256" },
-      { "internalType": "uint256", "name": "feeGrowth1", "type": "uint256" },
-      { "internalType": "uint256", "name": "tokensOwed0", "type": "uint256" },
-      { "internalType": "uint256", "name": "tokensOwed1", "type": "uint256" }
+      {
+        "components": [
+          { "internalType": "int24", "name": "baseTickLower", "type": "int24" },
+          { "internalType": "int24", "name": "baseTickUpper", "type": "int24" },
+          {
+            "internalType": "uint128",
+            "name": "baseLiquidity",
+            "type": "uint128"
+          },
+          {
+            "internalType": "int24",
+            "name": "rangeTickLower",
+            "type": "int24"
+          },
+          {
+            "internalType": "int24",
+            "name": "rangeTickUpper",
+            "type": "int24"
+          },
+          {
+            "internalType": "uint128",
+            "name": "rangeLiquidity",
+            "type": "uint128"
+          },
+          { "internalType": "uint256", "name": "fees0", "type": "uint256" },
+          { "internalType": "uint256", "name": "fees1", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "feeGrowthGlobal0",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "feeGrowthGlobal1",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalLiquidity",
+            "type": "uint256"
+          },
+          { "internalType": "bool", "name": "feesInPilot", "type": "bool" },
+          { "internalType": "address", "name": "oracle0", "type": "address" },
+          { "internalType": "address", "name": "oracle1", "type": "address" },
+          { "internalType": "uint256", "name": "timestamp", "type": "uint256" },
+          { "internalType": "uint8", "name": "counter", "type": "uint8" },
+          { "internalType": "bool", "name": "status", "type": "bool" },
+          { "internalType": "bool", "name": "managed", "type": "bool" }
+        ],
+        "internalType": "struct IUniswapLiquidityManager.LiquidityPosition",
+        "name": "",
+        "type": "tuple"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -399,31 +441,62 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "oracle_", "type": "address" },
-      { "internalType": "address", "name": "ulmState_", "type": "address" },
-      { "internalType": "address", "name": "indexFund_", "type": "address" },
-      { "internalType": "address", "name": "uniStrategy_", "type": "address" },
       {
-        "internalType": "address",
-        "name": "unipilotAddress_",
-        "type": "address"
+        "components": [
+          {
+            "internalType": "uint8",
+            "name": "swapPercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint24",
+            "name": "swapPriceThreshold",
+            "type": "uint24"
+          },
+          { "internalType": "uint256", "name": "premium", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "gasPriceLimit",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "userPilotPercentage",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "feesPercentageIndexFund",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint24",
+            "name": "readjustFrequencyTime",
+            "type": "uint24"
+          },
+          {
+            "internalType": "uint16",
+            "name": "poolCardinalityDesired",
+            "type": "uint16"
+          },
+          {
+            "internalType": "address",
+            "name": "pilotWethPair",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "oracle", "type": "address" },
+          { "internalType": "address", "name": "indexFund", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "uniStrategy",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "unipilot", "type": "address" }
+        ],
+        "internalType": "struct IUniswapLiquidityManager.UnipilotProtocolDetails",
+        "name": "params",
+        "type": "tuple"
       }
-    ],
-    "name": "setCoreAddresses",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "recipient", "type": "address" },
-      { "internalType": "uint8", "name": "pilotPercentage", "type": "uint8" },
-      {
-        "internalType": "uint8",
-        "name": "userPilotPercentage",
-        "type": "uint8"
-      },
-      { "internalType": "bool", "name": "status", "type": "bool" }
     ],
     "name": "setPilotProtocolDetails",
     "outputs": [],
@@ -433,26 +506,25 @@
   {
     "inputs": [
       { "internalType": "address", "name": "pool", "type": "address" },
-      { "internalType": "uint256", "name": "premium_", "type": "uint256" },
-      {
-        "internalType": "uint256",
-        "name": "gasPriceLimit_",
-        "type": "uint256"
-      },
-      { "internalType": "bool", "name": "premiumStatus_", "type": "bool" }
+      { "internalType": "bool", "name": "feesInPilot_", "type": "bool" },
+      { "internalType": "bool", "name": "managed_", "type": "bool" },
+      { "internalType": "address", "name": "oracle0", "type": "address" },
+      { "internalType": "address", "name": "oracle1", "type": "address" }
     ],
-    "name": "setReadjustPremiumForPools",
+    "name": "setPoolIncentives",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "pool", "type": "address" }
+      { "internalType": "address", "name": "pool", "type": "address" },
+      { "internalType": "int24", "name": "baseTickLower", "type": "int24" },
+      { "internalType": "int24", "name": "baseTickUpper", "type": "int24" }
     ],
-    "name": "toggleFeesInPilot",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "shouldReadjust",
+    "outputs": [{ "internalType": "bool", "name": "readjust", "type": "bool" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -483,13 +555,51 @@
     ],
     "name": "updatePositionTotalAmounts",
     "outputs": [
-      { "internalType": "uint256", "name": "fee0", "type": "uint256" },
-      { "internalType": "uint256", "name": "fee1", "type": "uint256" },
       { "internalType": "uint256", "name": "amount0", "type": "uint256" },
       { "internalType": "uint256", "name": "amount1", "type": "uint256" },
       { "internalType": "uint256", "name": "totalLiquidity", "type": "uint256" }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+    ],
+    "name": "userPositions",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "nonce", "type": "uint256" },
+          { "internalType": "address", "name": "pool", "type": "address" },
+          { "internalType": "uint256", "name": "liquidity", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "feeGrowth0",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "feeGrowth1",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokensOwed0",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokensOwed1",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IUniswapLiquidityManager.Position",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {

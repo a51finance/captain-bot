@@ -2,12 +2,7 @@ import { Controller } from '@nestjs/common';
 import { Interval } from '@nestjs/schedule';
 import { CONTRACT_ADDRESSES, SUBGRAPH_URI, URL_ETHERSCAN } from 'src/constants';
 import { getWeb3WithProvider, Wallet } from 'src/contracts/common';
-import {
-  getPremiumStatusForPoolsFunc,
-  reAdjust,
-  readjustFrequencyStatusAll,
-} from 'src/contracts/functions/Unipilot';
-import { shouldReAdjustAll } from 'src/contracts/functions/UniState';
+import { getOverAllStatus, reAdjust } from 'src/contracts/functions/Unipilot';
 import { subgraphRequest } from 'src/utils';
 
 const params = {
@@ -62,20 +57,17 @@ export class BotController {
 
       wallet.importWallet(process.env.PRIVATE_KEY);
 
-      const shouldReadjust = await shouldReAdjustAll(
-        outOfRangePositions.map((p) => p.poolAddress),
-      );
-      const readjustFrequencyStatus = await readjustFrequencyStatusAll(
-        outOfRangePositions.map((p) => p.poolAddress),
-      );
+      console.log(outOfRangePositions);
 
       let txCount = await wallet.getTransectionCount();
 
       let allowedToRebase = [];
+      let overAll = await getOverAllStatus(
+        outOfRangePositions.map((o) => o.poolAddress),
+      );
 
       outOfRangePositions.forEach((position, idx) => {
-        if (shouldReadjust[idx] && !readjustFrequencyStatus[idx])
-          allowedToRebase.push(position);
+        if (overAll[idx]) allowedToRebase.push(position);
       });
 
       await this.rebase({
@@ -91,16 +83,7 @@ export class BotController {
     if (positions.length <= idx) return;
 
     try {
-      const chainId = 4;
-
-      let isPremium = await getPremiumStatusForPoolsFunc(
-        positions[idx].poolAddress,
-      );
-
-      if (!isPremium)
-        throw new Error(
-          `Pool isn't premium: Pool Addr => ${positions[idx].poolAddress}`,
-        );
+      const chainId = 1;
 
       const _reAdjust = reAdjust({
         token0: positions[idx]?.token0Address,
@@ -122,6 +105,7 @@ export class BotController {
         data: _reAdjust,
         nonce: txCount,
         gas: parseInt(gas).toString(),
+        gasLimit: `${1200000}`,
         maxFeePerGas: '250000000000',
       });
 

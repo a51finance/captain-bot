@@ -29,8 +29,6 @@ export interface MulticallAbi extends BaseContract {
   ): MulticallAbi;
   clone(): MulticallAbi;
   methods: {
-    getCurrentBlockTimestamp(): NonPayableTransactionObject<string>;
-
     aggregate(
       calls: [string, string | number[]][]
     ): NonPayableTransactionObject<{
@@ -40,19 +38,51 @@ export interface MulticallAbi extends BaseContract {
       1: string[];
     }>;
 
-    getLastBlockHash(): NonPayableTransactionObject<string>;
+    blockAndAggregate(
+      calls: [string, string | number[]][]
+    ): NonPayableTransactionObject<{
+      blockNumber: string;
+      blockHash: string;
+      returnData: [boolean, string][];
+      0: string;
+      1: string;
+      2: [boolean, string][];
+    }>;
 
-    getEthBalance(addr: string): NonPayableTransactionObject<string>;
+    getBlockHash(
+      blockNumber: number | string | BN
+    ): NonPayableTransactionObject<string>;
+
+    getBlockNumber(): NonPayableTransactionObject<string>;
+
+    getCurrentBlockCoinbase(): NonPayableTransactionObject<string>;
 
     getCurrentBlockDifficulty(): NonPayableTransactionObject<string>;
 
     getCurrentBlockGasLimit(): NonPayableTransactionObject<string>;
 
-    getCurrentBlockCoinbase(): NonPayableTransactionObject<string>;
+    getCurrentBlockTimestamp(): NonPayableTransactionObject<string>;
 
-    getBlockHash(
-      blockNumber: number | string | BN
-    ): NonPayableTransactionObject<string>;
+    getEthBalance(addr: string): NonPayableTransactionObject<string>;
+
+    getLastBlockHash(): NonPayableTransactionObject<string>;
+
+    tryAggregate(
+      requireSuccess: boolean,
+      calls: [string, string | number[]][]
+    ): NonPayableTransactionObject<[boolean, string][]>;
+
+    tryBlockAndAggregate(
+      requireSuccess: boolean,
+      calls: [string, string | number[]][]
+    ): NonPayableTransactionObject<{
+      blockNumber: string;
+      blockHash: string;
+      returnData: [boolean, string][];
+      0: string;
+      1: string;
+      2: [boolean, string][];
+    }>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
