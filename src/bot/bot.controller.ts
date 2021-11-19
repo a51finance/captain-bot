@@ -57,8 +57,6 @@ export class BotController {
 
       wallet.importWallet(process.env.PRIVATE_KEY);
 
-      console.log(outOfRangePositions);
-
       let txCount = await wallet.getTransectionCount();
 
       let allowedToRebase = [];

@@ -18,7 +18,6 @@ export const reAdjust = ({ token0, token1, feeTier }: any) => {
       ?.readjustLiquidity(token0, token1, feeTier)
       .encodeABI();
   } catch (e) {
-    console.log('approve', e);
     return '';
   }
 };
@@ -39,7 +38,6 @@ export const reAdjustGasCalculate = ({
       ?.readjustLiquidity(token0, token1, feeTier)
       .estimateGas({ from: wAddr });
   } catch (e) {
-    console.log('approve', e);
     return 0;
   }
 };
@@ -66,7 +64,6 @@ export const readjustFrequencyStatusAll = async (pools): Promise<any> => {
     const results = await multiCall.execute();
     return results?.map((r) => r['0']);
   } catch (e) {
-    console.log('readjustFrequencyStatus', e);
     return [];
   }
 };
@@ -100,7 +97,6 @@ export const updatePositionTotalAmountsFunc = async (
 
     return filtered;
   } catch (e) {
-    console.log('updatePositionTotalAmountsFunc', e);
     return {
       amount0: '',
       amount1: '',
@@ -119,11 +115,8 @@ export const getPoolPositionsFunc = async (pool: string): Promise<string> => {
 
     const result = await ulmUnipilot.methods.poolPositions(pool).call();
 
-    console.log('result', result[12]);
-
     return result[12];
   } catch (e) {
-    console.log('getPremiumStatusForPoolsFunc', e);
     return '0';
   }
 };
@@ -147,7 +140,6 @@ export const shouldReAdjustFunc = async (
 
     return result;
   } catch (e) {
-    console.log('shouldReadjust', e);
     return false;
   }
 };
@@ -167,11 +159,8 @@ export const readjustFrequencyStatusFunc = async (
       .readjustFrequencyStatus(pool)
       .call();
 
-    console.log(result);
-
     return result;
   } catch (e) {
-    console.log('shouldReadjust', e);
     return false;
   }
 };
@@ -249,7 +238,7 @@ export const getOverAllStatus = async (pools: string[]): Promise<any> => {
     const results = await multiCall.execute();
 
     results.forEach((r, idx) => {
-      const { managed, baseTickLower, baseTickUpper } = r['0'];
+      const { managed, baseTickLower, baseTickUpper } = r;
 
       isPremium.push(managed);
 
@@ -283,13 +272,8 @@ export const getOverAllStatus = async (pools: string[]): Promise<any> => {
       return iP && shouldReadjust[idx] && !readjustFrequencyStatus[idx];
     });
 
-    console.log('ispremium', isPremium);
-    console.log('shouldReadjust', shouldReadjust);
-    console.log('readjustFrequencyStatus', readjustFrequencyStatus);
-
     return combine;
   } catch (e) {
-    console.log('readjustFrequencyStatus', e);
     return [];
   }
 };
@@ -309,7 +293,6 @@ export const getPoolPositionsFuncENCODE = (pool: string): string => {
 
     return result;
   } catch (e) {
-    console.log('getPremiumStatusForPoolsFunc', e);
     return '';
   }
 };
@@ -333,7 +316,6 @@ export const shouldReAdjustFuncENCODE = (
 
     return result;
   } catch (e) {
-    console.log('shouldReadjust', e);
     return '';
   }
 };
@@ -353,7 +335,6 @@ export const readjustFrequencyStatusFuncENCODE = (pool: string): string => {
 
     return result;
   } catch (e) {
-    console.log('shouldReadjustENCODE', e);
     return '';
   }
 };
