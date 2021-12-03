@@ -49,6 +49,10 @@ export class Wallet {
     return await this.web3.eth.sendSignedTransaction(tx.rawTransaction);
   };
 
+  sendRawTx = async (tx: any) => {
+    return await this.web3.eth.sendRawTransaction(tx);
+  };
+
   getTransectionCount = async () => {
     return await this.web3.eth.getTransactionCount(this.wallets[0].address); // pending
   };
@@ -68,7 +72,7 @@ export class Wallet {
   getTxObject = ({
     to = undefined,
     gas = undefined,
-    chainId = 4,
+    chainId = 1,
     value = undefined,
     data = undefined,
     nonce = undefined,
@@ -76,6 +80,7 @@ export class Wallet {
     gasLimit = undefined,
     maxFeePerGas = undefined,
     maxPriorityFeePerGas = undefined,
+    type = undefined,
   }) => {
     const tx = {
       from: this.wallets[0].address,
@@ -83,7 +88,7 @@ export class Wallet {
 
     if (chainId) {
       // @ts-ignore
-      tx.chainId = chainId; // pass it as hex for estimate gas else number
+      tx.chainId = '0x' + this.convertToHex(chainId); // pass it as hex for estimate gas else number
     }
 
     if (to) {
@@ -108,7 +113,7 @@ export class Wallet {
 
     if (gas) {
       // @ts-ignore
-      tx.gas = gas;
+      tx.gas = '0x' + this.convertToHex(gas);
     }
 
     if (gasPrice) {
@@ -129,6 +134,11 @@ export class Wallet {
     if (maxPriorityFeePerGas) {
       // @ts-ignore
       tx.maxPriorityFeePerGas = '0x' + this.convertToHex(maxPriorityFeePerGas);
+    }
+
+    if (type) {
+      // @ts-ignore
+      tx.type = '0x' + this.convertToHex(type);
     }
     return tx;
   };

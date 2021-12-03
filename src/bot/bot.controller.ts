@@ -3,7 +3,10 @@ import { Interval } from '@nestjs/schedule';
 import { CONTRACT_ADDRESSES, SUBGRAPH_URI, URL_ETHERSCAN } from 'src/constants';
 import { getWeb3WithProvider, Wallet } from 'src/contracts/common';
 import { getOverAllStatus, reAdjust } from 'src/contracts/functions/Unipilot';
+
 import { subgraphRequest } from 'src/utils';
+const { FeeMarketEIP1559Transaction } = require('@ethereumjs/tx');
+const Common = require('@ethereumjs/common').default;
 
 const params = {
   uniPools: {
@@ -81,35 +84,34 @@ export class BotController {
     if (positions.length <= idx) return;
 
     try {
-      const chainId = 1;
-
       const _reAdjust = reAdjust({
         token0: positions[idx]?.token0Address,
         token1: positions[idx]?.token1Address,
         feeTier: positions[idx]?.feeTier,
       });
 
-      const gas = await wallet.getEstimatedGas(
-        wallet.getTxObject({
-          to: CONTRACT_ADDRESSES.LiquidityManager,
-          data: _reAdjust,
-          nonce: txCount,
-          chainId: '0x' + wallet.convertToHex(chainId),
-        }),
-      );
-
       const txObject = wallet.getTxObject({
         to: CONTRACT_ADDRESSES.LiquidityManager,
         data: _reAdjust,
         nonce: txCount,
-        gas: parseInt(gas).toString(),
         gasLimit: `${1200000}`,
         maxFeePerGas: '250000000000',
+        maxPriorityFeePerGas: '1000000000',
+        type: '2',
       });
 
-      const txSigned = await wallet.getSignedTx(txObject);
+      let chain = new Common({ chain: 'mainnet', hardfork: 'london' });
 
-      const tx = await wallet.sendSignedTx(txSigned);
+      const transaction = FeeMarketEIP1559Transaction.fromTxData(txObject, {
+        chain,
+      });
+
+      const signedTransaction = transaction.sign(
+        Buffer.from(wallet.wallets[0].privateKey.slice(2), 'hex'),
+      );
+      const txSigned = '0x' + signedTransaction.serialize().toString('hex');
+
+      const tx = await wallet.sendSignedTx({ rawTransaction: txSigned });
 
       console.log('TX Info => ', {
         nonce: txCount,
