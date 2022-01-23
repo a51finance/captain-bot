@@ -5,4 +5,4 @@ export const CONTRACT_ADDRESSES = {
 
 export const URL_ETHERSCAN = 'https://etherscan.io/tx/';
 export const SUBGRAPH_URI =
-  'https://api.thegraph.com/subgraphs/name/rafaqat11/stats';
+  'https://api.thegraph.com/subgraphs/name/unipilotvoirstudio/unipilotstats';
